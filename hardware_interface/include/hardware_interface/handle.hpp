@@ -63,6 +63,7 @@ namespace hardware_interface
 using HANDLE_DATATYPE = std::variant<std::monostate, double, bool>;
 
 /// A handle used to get and set a value on a given interface.
+// handle 用于获取和设置指定接口上的值
 class Handle
 {
 public:

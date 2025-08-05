@@ -16,6 +16,15 @@ The definition can be found in the `ros2_control repository <https://github.com/
 You can check the structs defined there to see what attributes are available for each of the xml tags.
 A generic example which shows the structure is provided below. More specific examples can be found in the Example part below.
 
+ROS2_CONTROL的硬件接口类型
+---------------------------------------------------------
+
+ROS2_CONTROL框架提供了一组硬件接口类型，可以用于实现特定机器人或设备的硬件组件。
+以下部分描述了不同的硬件接口类型及其使用方法。
+
+概述
+*****************************
+
 .. code:: xml
 
     <ros2_control name="Name_of_the_hardware" type="system">
@@ -50,10 +59,10 @@ All joints defined in the ``<ros2_control>``-tag have to be present in the URDF 
 
 State interfaces of joints can be published as a ROS topic by means of the :ref:`joint_state_broadcaster <joint_state_broadcaster_userdoc>`
 
-Sensors
+Sensors 传感器
 *****************************
-``<sensor>``-tag groups multiple state interfaces describing, e.g., internal states of hardware.
-
+``<sensor>``-tag groups multiple state interfaces describing, e.g., internal states of hardware.  
+ 
 Depending on the type of sensor, there exist a couple of specific semantic components with broadcasters shipped with ros2_controllers, see details in the :ref:`semantic_components <semantic_components>`.
 
 GPIOs
@@ -88,6 +97,11 @@ They can be combined together within the different hardware component types (sys
    - Analog: 2 inputs and 1 output
    - Vacuum valve at the flange (on/off)
 
+  带有多个GPIO接口的机器人
+  - RRBot System
+  - 数字：4个输入和2个输出
+  - 模拟：2个输入和1个输出
+  - Vacuum valve at the flange（开/关）
 
   .. code:: xml
 
@@ -134,11 +148,16 @@ They can be combined together within the different hardware component types (sys
       </gpio>
     </ros2_control>
 
-2. Gripper with electrical and suction grasping possibilities
+1. Gripper with electrical and suction grasping possibilities
 
    - Multimodal gripper
    - 1-DoF parallel gripper
    - suction on/off
+
+  带有电和吸力抓取可能性的夹爪
+  - 多模态夹爪
+  - 1-DoF平行夹爪
+  - 吸力开/关
 
   .. code:: xml
 
@@ -159,11 +178,16 @@ They can be combined together within the different hardware component types (sys
       </gpio>
     </ros2_control>
 
-3. Force-Torque-Sensor with temperature feedback and adjustable calibration
+1. Force-Torque-Sensor with temperature feedback and adjustable calibration
 
    - 2D FTS
    - Temperature feedback in °C
    - Choice between 3 calibration matrices, i.e., calibration ranges
+
+  带有温度反馈和可调校准的2D力矩传感器
+  - 2D FTS
+  - 温度反馈（°C）
+  - 3个校准矩阵，即校准范围
 
   .. code:: xml
 
@@ -195,6 +219,13 @@ They can be combined together within the different hardware component types (sys
    - Analog: Total 2 inputs and 1 output
    - Vacuum valve at the flange (on/off)
    - Group: Group1
+
+  带有多个硬件组件属于同一组的机器人：``Group1``
+  - RRBot System 1 and 2
+  - 数字：总共4个输入和2个输出
+  - 模拟：总共2个输入和1个输出
+  - Vacuum valve at the flange (on/off)
+  - 组：Group1
 
   .. code:: xml
 

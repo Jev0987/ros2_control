@@ -22,6 +22,7 @@ Guidelines and Best Practices
 
 
 Lifecycle of a Hardware Component
+使用了lifecycle_node_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Methods return values have type
 ``rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn`` with the following
@@ -37,32 +38,42 @@ The hardware transitions to the following state after each method:
 * **UNCONFIGURED** (``on_init``, ``on_cleanup``):
 
   Hardware is only initialized, but communication is not started and no interfaces are imported into ``ResourceManager``.
+  当前状态只是进行了初始化，但是通信还没有开始，也没有接口导入到ResourceManager中。
 
 * **INACTIVE** (``on_configure``, ``on_deactivate``):
 
   Communication with the hardware is established and hardware component is configured.
   States can be read, but command interfaces (System and Actuator only) are not available.
-
+  通信已经建立，硬件组件已经配置。
+  可以读取状态，但是命令接口（System和Actuator）不可用。
+  
   As of now, it is left to the hardware component implementation to continue using the command received from the ``CommandInterfaces`` or to skip them completely.
 
+  目前，硬件组件的实现可以继续使用从``CommandInterfaces``接收的命令，也可以完全跳过它们。
+    
   .. note::
 
     We plan to implement safety-critical interfaces, see this `PR in the roadmap <https://github.com/ros-controls/roadmap/pull/51/files>`__. But currently, all command interfaces are available and will be written, see this `issue <https://github.com/ros-controls/ros2_control/issues/931>`__ describing the situation.
-
+    
 * **FINALIZED** (``on_shutdown``):
 
   Hardware interface is ready for unloading/destruction.
   Allocated memory is cleaned up.
-
+  硬件接口已经准备好卸载/销毁。
+  分配的内存被清理。
+  
 * **ACTIVE** (``on_activate``):
 
   States can be read.
+  可以读取状态。
 
   System and Actuator only:
+  只有System和Actuator可以读取状态。
 
     Power circuits of hardware are active and hardware can be moved, e.g., brakes are disengaged.
+    硬件的电源电路是活跃的，硬件可以移动，例如，制动器被释放。
     Command interfaces are available and the commands should be sent to the hardware
-
+    命令接口可用，命令应该发送到硬件
 
 Handling of errors that happen during read() and write() calls
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
